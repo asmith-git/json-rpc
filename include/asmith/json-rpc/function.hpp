@@ -26,7 +26,7 @@ namespace asmith { namespace rpc {
 		struct function_0 {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					return serial::serialise<R>(aFunction());
 				};
 			}
@@ -36,7 +36,7 @@ namespace asmith { namespace rpc {
 		struct function_0<void> {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					aFunction();
 					return serial::value();
 				};
@@ -47,7 +47,7 @@ namespace asmith { namespace rpc {
 		struct function_1 {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					return serial::serialise<R>(aFunction(
 						serial::deserialise<P1>(aParams[0])
 					));
@@ -59,7 +59,7 @@ namespace asmith { namespace rpc {
 		struct function_1<void, P1> {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					aFunction(
 						serial::deserialise<P1>(aParams[0])
 					);
@@ -72,7 +72,7 @@ namespace asmith { namespace rpc {
 		struct function_2 {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					return serial::serialise<R>(aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1])
@@ -85,7 +85,7 @@ namespace asmith { namespace rpc {
 		struct function_2<void, P1, P2> {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1])
@@ -99,7 +99,7 @@ namespace asmith { namespace rpc {
 		struct function_3 {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					return serial::serialise<R>(aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
@@ -113,7 +113,7 @@ namespace asmith { namespace rpc {
 		struct function_3<void, P1, P2, P3> {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
@@ -128,7 +128,7 @@ namespace asmith { namespace rpc {
 		struct function_4 {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					return serial::serialise<R>(aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
@@ -143,7 +143,7 @@ namespace asmith { namespace rpc {
 		struct function_4<void, P1, P2, P3, P4> {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
@@ -159,7 +159,7 @@ namespace asmith { namespace rpc {
 		struct function_5 {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					return serial::serialise<R>(aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
@@ -175,7 +175,7 @@ namespace asmith { namespace rpc {
 		struct function_5<void, P1, P2, P3, P4, P5> {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
@@ -192,7 +192,7 @@ namespace asmith { namespace rpc {
 		struct function_6 {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					return serial::serialise<R>( aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
@@ -209,7 +209,7 @@ namespace asmith { namespace rpc {
 		struct function_6<void, P1, P2, P3, P4, P5, P6> {
 			template<class F>
 			static function wrap(const F& aFunction) {
-				return [=aFunction](const serial::value& aParams) {
+				return [=](const serial::value& aParams) {
 					aFunction(
 						serial::deserialise<P1>(aParams[0]),
 						serial::deserialise<P2>(aParams[1]),
