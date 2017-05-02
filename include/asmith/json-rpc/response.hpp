@@ -42,6 +42,7 @@ namespace asmith { namespace rpc {
 	struct response {
 		error error;
 		serial::value result;
+		std::string jsonrpc;
 		uint64_t id;
 	};
 }}
@@ -55,6 +56,7 @@ struct asmith::serial::serialiser<asmith::rpc::error> {
 		JSON_RPC_SERIALISE_BEGIN;
 		JSON_RPC_SERIALISE_MEMBER(data);
 		JSON_RPC_SERIALISE_MEMBER(message);
+		JSON_RPC_SERIALISE_MEMBER(jsonrpc);
 		JSON_RPC_SERIALISE_MEMBER(code);
 		JSON_RPC_SERIALISE_END;
 	}
@@ -63,6 +65,7 @@ struct asmith::serial::serialiser<asmith::rpc::error> {
 		JSON_RPC_DESERIALISE_BEGIN;
 		JSON_RPC_DESERIALISE_MEMBER(data);
 		JSON_RPC_DESERIALISE_MEMBER(message);
+		JSON_RPC_DESERIALISE_MEMBER(jsonrpc);
 		JSON_RPC_DESERIALISE_MEMBER(code);
 		JSON_RPC_DESERIALISE_END;
 	}

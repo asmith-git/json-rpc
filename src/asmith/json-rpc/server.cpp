@@ -23,6 +23,15 @@ namespace asmith { namespace rpc {
 	void server::handle_request(const request& aRequest) {
 		response response;
 		response.id = aRequest.id;
+		response.jsonrpc = "2.0";
+
+		if(aRequest.jsonrpc != "2.0") {
+			response.error.code = INVALID_REQUEST;
+			response.error.message = "Invalid Request";
+			response.error.data.set_string() = aRequest.jsonrpc;
+			send_response(response);
+			return;
+			)
 
 		function function;
 		try {
