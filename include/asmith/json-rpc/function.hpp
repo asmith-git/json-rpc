@@ -42,6 +42,7 @@ namespace asmith { namespace rpc {
 				};
 			}
 		};
+
 		template<class R, class P1>
 		struct function_1 {
 			template<class F>
@@ -221,8 +222,49 @@ namespace asmith { namespace rpc {
 				};
 			}
 		};
+
+		template<class F>
+		struct function_n {
+			template<class... PARAMS>
+			static inline typename std::enable_if<sizeof...(PARAMS) == 1, function>::type wrap(const F& aFunction) {
+				return function_0<PARAMS...>::wrap<F>(aFunction);
+			}
+
+			template<class... PARAMS>
+			static inline typename std::enable_if<sizeof...(PARAMS) == 2, function>::type wrap(const F& aFunction) {
+				return function_1<PARAMS...>::wrap<F>(aFunction);
+			}
+
+			template<class... PARAMS>
+			static inline typename std::enable_if<sizeof...(PARAMS) == 3, function>::type wrap(const F& aFunction) {
+				return function_2<PARAMS...>::wrap<F>(aFunction);
+			}
+
+			template<class... PARAMS>
+			static inline typename std::enable_if<sizeof...(PARAMS) == 4, function>::type wrap(const F& aFunction) {
+				return function_3<PARAMS...>::wrap<F>(aFunction);
+			}
+
+			template<class... PARAMS>
+			static inline typename std::enable_if<sizeof...(PARAMS) == 5, function>::type wrap(const F& aFunction) {
+				return function_4<PARAMS...>::wrap<F>(aFunction);
+			}
+
+			template<class... PARAMS>
+			static inline typename std::enable_if<sizeof...(PARAMS) == 6, function>::type wrap(const F& aFunction) {
+				return function_5<PARAMS...>::wrap<F>(aFunction);
+			}
+
+			template<class... PARAMS>
+			static inline typename std::enable_if<sizeof...(PARAMS) == 7, function>::type wrap(const F& aFunction) {
+				return function_6<PARAMS...>::wrap<F>(aFunction);
+			}
+		};
 	}
 
-
+	template<class F, class... PARAMS>
+	static inline function wrap_funtion(const F& aFunction) {
+		return implementation::function_n<F>::wrap<PARAMS...>(aFunction);
+	}
 }}
 #endif
