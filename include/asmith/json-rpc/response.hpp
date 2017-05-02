@@ -40,7 +40,7 @@ namespace asmith { namespace rpc {
 	};
 
 	struct response {
-		error error;
+		serial::value error;
 		serial::value result;
 		std::string jsonrpc;
 		uint64_t id;

@@ -27,9 +27,11 @@ namespace asmith { namespace rpc {
 		response.jsonrpc = "2.0";
 
 		if(aRequest.jsonrpc != "2.0") {
-			response.error.code = INVALID_REQUEST;
-			response.error.message = "Invalid Request";
-			response.error.data.set_string() = aRequest.jsonrpc;
+			error e;
+			e.code = INVALID_REQUEST;
+			e.message = "Invalid Request";
+			e.data.set_string() = aRequest.jsonrpc;
+			response.error = serial::serialise<error>(e);
 			if(aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
 		}
@@ -37,9 +39,11 @@ namespace asmith { namespace rpc {
 		try {
 			function = get_function(aRequest.method);
 		}catch (...) {
-			response.error.code = METHOD_NOT_FOUND;
-			response.error.message = "Method not found";
-			response.error.data.set_string() = aRequest.method;
+			error e;
+			e.code = METHOD_NOT_FOUND;
+			e.message = "Method not found";
+			e.data.set_string() = aRequest.method;
+			response.error = serial::serialise<error>(e);
 			if (aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
 		}
@@ -48,15 +52,17 @@ namespace asmith { namespace rpc {
 			function = get_function(aRequest.method);
 			response.result = function(aRequest.params);
 		}catch(std::exception& e) {
-			response.id = aRequest.id;
-			response.error.code = EXCEPTION_THROWN;
-			response.error.message = e.what();
+			error e2;
+			e2.code = EXCEPTION_THROWN;
+			e2.message = e.what();
+			response.error = serial::serialise<error>(e2);
 			if (aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
 		}catch(...) {
-			response.id = aRequest.id;
-			response.error.code = EXCEPTION_THROWN;
-			response.error.message = "Unknown type thrown by method";
+			error e;
+			e.code = EXCEPTION_THROWN;
+			e.message = "Unknown type thrown by method";
+			response.error = serial::serialise<error>(e);
 			if (aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
 		}
