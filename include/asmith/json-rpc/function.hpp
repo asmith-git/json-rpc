@@ -14,17 +14,32 @@
 #ifndef ASMITH_JSON_RPC_FUNCTION_HPP
 #define ASMITH_JSON_RPC_FUNCTION_HPP
 
+#include <functional>
 #include "asmith/serial/value.hpp"
 
 namespace asmith { namespace rpc {
 
-	template<class R, class...PARAMS>
-	class function {
-	protected:
-		virtual R call_implementation(PARAMS...) = 0;
-	public:
-		virtual ~function() {}
-	};
+	typedef std::function<serial::value(const serial::value&)> function;
+
+	namespace implementation {
+		template<class R, class P1, class P2, class P3, class P4, class P5, class P6>
+		struct function_6 {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					return serial::serialise<R>( aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2]),
+						serial::deserialise<P4>(aParams[3]),
+						serial::deserialise<P5>(aParams[4]),
+						serial::deserialise<P6>(aParams[5])
+					));
+				};
+			}
+		};
+	}
+
 
 }}
 #endif
