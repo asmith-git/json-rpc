@@ -22,6 +22,171 @@ namespace asmith { namespace rpc {
 	typedef std::function<serial::value(const serial::value&)> function;
 
 	namespace implementation {
+		template<class R>
+		struct function_0 {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					return serial::serialise<R>(aFunction());
+				};
+			}
+		};
+
+		template<>
+		struct function_0<void> {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					aFunction();
+					return serial::value();
+				};
+			}
+		};
+		template<class R, class P1>
+		struct function_1 {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					return serial::serialise<R>(aFunction(
+						serial::deserialise<P1>(aParams[0])
+					));
+				};
+			}
+		};
+
+		template<class P1>
+		struct function_1<void, P1> {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					aFunction(
+						serial::deserialise<P1>(aParams[0])
+					);
+					return serial::value();
+				};
+			}
+		};
+
+		template<class R, class P1, class P2>
+		struct function_2 {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					return serial::serialise<R>(aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1])
+					));
+				};
+			}
+		};
+
+		template<class P1, class P2>
+		struct function_2<void, P1, P2> {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1])
+					);
+					return serial::value();
+				};
+			}
+		};
+
+		template<class R, class P1, class P2, class P3>
+		struct function_3 {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					return serial::serialise<R>(aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2])
+					));
+				};
+			}
+		};
+
+		template<class P1, class P2, class P3>
+		struct function_3<void, P1, P2, P3> {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2])
+					);
+					return serial::value();
+				};
+			}
+		};
+
+		template<class R, class P1, class P2, class P3, class P4>
+		struct function_4 {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					return serial::serialise<R>(aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2]),
+						serial::deserialise<P4>(aParams[3])
+					));
+				};
+			}
+		};
+
+		template<class P1, class P2, class P3, class P4>
+		struct function_4<void, P1, P2, P3, P4> {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2]),
+						serial::deserialise<P4>(aParams[3])
+					);
+					return serial::value();
+				};
+			}
+		};
+
+		template<class R, class P1, class P2, class P3, class P4, class P5>
+		struct function_5 {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					return serial::serialise<R>(aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2]),
+						serial::deserialise<P4>(aParams[3]),
+						serial::deserialise<P5>(aParams[4])
+					));
+				};
+			}
+		};
+
+		template<class P1, class P2, class P3, class P4, class P5>
+		struct function_5<void, P1, P2, P3, P4, P5> {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2]),
+						serial::deserialise<P4>(aParams[3]),
+						serial::deserialise<P5>(aParams[4])
+					);
+					return serial::value();
+				};
+			}
+		};
+
 		template<class R, class P1, class P2, class P3, class P4, class P5, class P6>
 		struct function_6 {
 			template<class F>
