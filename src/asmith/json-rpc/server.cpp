@@ -21,6 +21,7 @@ namespace asmith { namespace rpc {
 	}
 
 	void server::handle_request(const request& aRequest) {
+		function function;
 		response response;
 		response.id = aRequest.id;
 		response.jsonrpc = "2.0";
@@ -29,20 +30,20 @@ namespace asmith { namespace rpc {
 			response.error.code = INVALID_REQUEST;
 			response.error.message = "Invalid Request";
 			response.error.data.set_string() = aRequest.jsonrpc;
-			send_response(response);
+			if(aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
-			)
+		}
 
-		function function;
 		try {
 			function = get_function(aRequest.method);
 		}catch (...) {
 			response.error.code = METHOD_NOT_FOUND;
 			response.error.message = "Method not found";
 			response.error.data.set_string() = aRequest.method;
-			send_response(response);
+			if (aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
 		}
+
 		try {
 			function = get_function(aRequest.method);
 			response.result = function(aRequest.params);
@@ -50,16 +51,15 @@ namespace asmith { namespace rpc {
 			response.id = aRequest.id;
 			response.error.code = EXCEPTION_THROWN;
 			response.error.message = e.what();
-			send_response(response);
+			if (aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
 		}catch(...) {
 			response.id = aRequest.id;
 			response.error.code = EXCEPTION_THROWN;
 			response.error.message = "Unknown type thrown by method";
-			send_response(response);
+			if (aRequest.id != NOTIFICATION_ID) send_response(response);
 			return;
 		}
-		send_response(response);
-
+		if(aRequest.id != NOTIFICATION_ID) send_response(response);
 	}
 }}

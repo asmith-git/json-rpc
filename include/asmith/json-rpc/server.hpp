@@ -20,6 +20,7 @@
 
 namespace asmith { namespace rpc {
 	class server {
+	protected:
 		virtual function get_function(const std::string&) = 0;
 		virtual void send_response(const response&) = 0;
 		

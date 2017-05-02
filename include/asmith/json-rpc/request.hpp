@@ -19,8 +19,11 @@
 #include "rpc.hpp"
 
 namespace asmith { namespace rpc {
-	//! \todo Notifications
 	//! \todo Batches
+
+	enum {
+		NOTIFICATION_ID = UINT64_MAX
+	};
 
 	struct request {
 		uint64_t id;
@@ -37,7 +40,7 @@ struct asmith::serial::serialiser<asmith::rpc::request> {
 
 	static inline value serialise(input_t aValue) throw() {
 		JSON_RPC_SERIALISE_BEGIN;
-		JSON_RPC_SERIALISE_MEMBER(id);
+		if(aValue.id != asmith::rpc::NOTIFICATION_ID) JSON_RPC_SERIALISE_MEMBER(id);
 		JSON_RPC_SERIALISE_MEMBER(params);
 		JSON_RPC_SERIALISE_MEMBER(jsonrpc);
 		JSON_RPC_SERIALISE_MEMBER(method);
@@ -46,7 +49,7 @@ struct asmith::serial::serialiser<asmith::rpc::request> {
 
 	static inline output_t deserialise(const value& aValue) throw() {
 		JSON_RPC_DESERIALISE_BEGIN;
-		JSON_RPC_DESERIALISE_MEMBER(id);
+		JSON_RPC_DESERIALISE_OPTIONAL_MEMBER(id, asmith::rpc::NOTIFICATION_ID);
 		JSON_RPC_DESERIALISE_MEMBER(params);
 		JSON_RPC_DESERIALISE_MEMBER(jsonrpc);
 		JSON_RPC_DESERIALISE_MEMBER(method);

@@ -25,6 +25,11 @@ namespace asmith {
 	#define JSON_RPC_DESERIALISE_BEGIN output_t tmp; const value::object_t& object = aValue.get_object();
 	#define JSON_RPC_DESERIALISE_END return tmp
 	#define JSON_RPC_DESERIALISE_MEMBER(name) JSON_RPC_MACRO_JOIN(tmp.,name) = serial::deserialise<decltype(JSON_RPC_MACRO_JOIN(tmp.,name))>(object.find(#name)->second)
+	#define JSON_RPC_DESERIALISE_OPTIONAL_MEMBER(name, value) \
+		{\
+			const auto i = object.find(#name);\
+			JSON_RPC_MACRO_JOIN(tmp., name) = i == object.end() ? value : serial::deserialise<decltype(JSON_RPC_MACRO_JOIN(tmp., name))>(i->second);\
+		}
 }
 
 #endif
