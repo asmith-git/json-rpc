@@ -38,6 +38,24 @@ namespace asmith { namespace rpc {
 				};
 			}
 		};
+
+		template<class P1, class P2, class P3, class P4, class P5, class P6>
+		struct function_6<void, P1, P2, P3, P4, P5, P6> {
+			template<class F>
+			static function wrap(const F& aFunction) {
+				return [=aFunction](const serial::value& aParams) {
+					aFunction(
+						serial::deserialise<P1>(aParams[0]),
+						serial::deserialise<P2>(aParams[1]),
+						serial::deserialise<P3>(aParams[2]),
+						serial::deserialise<P4>(aParams[3]),
+						serial::deserialise<P5>(aParams[4]),
+						serial::deserialise<P6>(aParams[5])
+					);
+					return serial::value();
+				};
+			}
+		};
 	}
 
 
