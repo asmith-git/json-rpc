@@ -19,6 +19,9 @@
 #include "rpc.hpp"
 
 namespace asmith { namespace rpc {
+	//! \todo Notifications
+	//! \todo Batches
+
 	struct request {
 		uint64_t id;
 		serial::value params;
