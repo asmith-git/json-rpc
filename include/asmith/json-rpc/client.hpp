@@ -22,9 +22,11 @@ namespace asmith { namespace rpc {
 	class client {
 	protected:
 		virtual uint64_t generate_request_id() = 0;
-		virtual response send_request(const response&) = 0;
+		virtual response send_request_implementation(const request&) = 0;
+		virtual void send_notification_implementation(const request&) = 0;
 
-		serial::value call_serial(const serial::value& aValue);
+		serial::value send_request(const std::string&, const serial::value&);
+		void send_notification(const std::string&, const serial::value&);
 	public:
 		virtual ~client();
 	};
