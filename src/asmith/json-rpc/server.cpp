@@ -20,20 +20,18 @@ namespace asmith { namespace rpc {
 
 	}
 
-	response server::handle_request(const request& aRequest, bool& aSend) {
+	bool server::handle_request(const request& aRequest, response& aResponse) {
 		function function;
-		response response;
-		response.id = aRequest.id;
-		response.jsonrpc = "2.0";
+		aResponse.id = aRequest.id;
+		aResponse.jsonrpc = "2.0";
 
 		if(aRequest.jsonrpc != "2.0") {
 			error e;
 			e.code = INVALID_REQUEST;
 			e.message = "Invalid Request";
 			e.data.set_string() = aRequest.jsonrpc;
-			response.error = serial::serialise<error>(e);
-			aSend = true;
-			return response;
+			aResponse.error = serial::serialise<error>(e);
+			return true;
 		}
 
 		try {
@@ -43,30 +41,26 @@ namespace asmith { namespace rpc {
 			e.code = METHOD_NOT_FOUND;
 			e.message = "Method not found";
 			e.data.set_string() = aRequest.method;
-			response.error = serial::serialise<error>(e);
-			aSend = true;
-			return response;
+			aResponse.error = serial::serialise<error>(e);
+			return true;
 		}
 
 		try {
 			function = get_function(aRequest.method);
-			response.result = function(aRequest.params);
+			aResponse.result = function(aRequest.params);
 		}catch(std::exception& e) {
 			error e2;
 			e2.code = EXCEPTION_THROWN;
 			e2.message = e.what();
-			response.error = serial::serialise<error>(e2);
-			aSend = true;
-			return response;
+			aResponse.error = serial::serialise<error>(e2);
+			return true;
 		}catch(...) {
 			error e;
 			e.code = EXCEPTION_THROWN;
 			e.message = "Unknown type thrown by method";
-			response.error = serial::serialise<error>(e);
-			aSend = true;
-			return response;
+			aResponse.error = serial::serialise<error>(e);
+			return true;
 		}
-		aSend = aRequest.id != NOTIFICATION_ID;
-		return response;
+		return aRequest.id != NOTIFICATION_ID;
 	}
 }}

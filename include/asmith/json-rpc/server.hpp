@@ -23,7 +23,7 @@ namespace asmith { namespace rpc {
 	protected:
 		virtual function get_function(const std::string&) = 0;
 		
-		response handle_request(const request&, bool&);
+		bool handle_request(const request&, response&);
 	public:
 		virtual ~server();
 	};
