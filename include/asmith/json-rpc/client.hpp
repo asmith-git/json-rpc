@@ -30,34 +30,34 @@ namespace asmith { namespace rpc {
 		serial::value send_request(const std::string&, const serial::value&);
 		void send_notification(const std::string&, const serial::value&);
 
-		template<class R, class ENABLE = typename std::enable_if<!std::is_same<R, void>::value>::type>
-		R call(const std::string& aName) {
+		template<class R>
+		typename std::enable_if<!std::is_same<R, void>::value, R>::type call(const std::string& aName) {
 			return serial::deserialise<R>(send_request(aName, serial::value()));
 		}
 
-		template<class R, class ENABLE = typename std::enable_if<std::is_same<R, void>::value>::type>
-		void call(const std::string& aName) {
+		template<class R>
+		typename std::enable_if<std::is_same<R, void>::value, R>::type call(const std::string& aName) {
 			send_notification(aName, serial::value());
 		}
 
-		template<class R, class P1, class ENABLE = typename std::enable_if<!std::is_same<R, void>::value>::type>
-		R call(const std::string& aName, P1 p1) {
+		template<class R, class P1>
+		typename std::enable_if<!std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
 			return serial::deserialise<R>(send_request(aName, val));
 		}
 
-		template<class R, class P1, class ENABLE = typename std::enable_if<std::is_same<R, void>::value>::type>
-		void call(const std::string& aName, P1 p1) {
+		template<class R, class P1>
+		typename std::enable_if<std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
 			send_notification(aName, val);
 		}
 
-		template<class R, class P1, class P2, class ENABLE = typename std::enable_if<!std::is_same<R, void>::value>::type>
-		R call(const std::string& aName, P1 p1, P2 p2) {
+		template<class R, class P1, class P2>
+		typename std::enable_if<!std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -65,8 +65,8 @@ namespace asmith { namespace rpc {
 			return serial::deserialise<R>(send_request(aName, val));
 		}
 
-		template<class R, class P1, class P2, class ENABLE = typename std::enable_if<std::is_same<R, void>::value>::type>
-		void call(const std::string& aName, P1 p1, P2 p2) {
+		template<class R, class P1, class P2>
+		typename std::enable_if<std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -74,8 +74,8 @@ namespace asmith { namespace rpc {
 			send_notification(aName, val);
 		}
 
-		template<class R, class P1, class P2, class P3, class ENABLE = typename std::enable_if<!std::is_same<R, void>::value>::type>
-		R call(const std::string& aName, P1 p1, P2 p2, P3 p3) {
+		template<class R, class P1, class P2, class P3>
+		typename std::enable_if<!std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -84,8 +84,8 @@ namespace asmith { namespace rpc {
 			return serial::deserialise<R>(send_request(aName, val));
 		}
 
-		template<class R, class P1, class P2, class P3, class ENABLE = typename std::enable_if<std::is_same<R, void>::value>::type>
-		void call(const std::string& aName, P1 p1, P2 p2, P3 p3) {
+		template<class R, class P1, class P2, class P3>
+		typename std::enable_if<std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -94,8 +94,8 @@ namespace asmith { namespace rpc {
 			send_notification(aName, val);
 		}
 
-		template<class R, class P1, class P2, class P3, class P4, class ENABLE = typename std::enable_if<!std::is_same<R, void>::value>::type>
-		R call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4) {
+		template<class R, class P1, class P2, class P3, class P4>
+		typename std::enable_if<!std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -105,8 +105,8 @@ namespace asmith { namespace rpc {
 			return serial::deserialise<R>(send_request(aName, val));
 		}
 
-		template<class R, class P1, class P2, class P3, class P4, class ENABLE = typename std::enable_if<std::is_same<R, void>::value>::type>
-		void call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4) {
+		template<class R, class P1, class P2, class P3, class P4>
+		typename std::enable_if<std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -116,20 +116,8 @@ namespace asmith { namespace rpc {
 			send_notification(aName, val);
 		}
 
-		template<class R, class P1, class P2, class P3, class P4, class P5, class ENABLE = typename std::enable_if<!std::is_same<R, void>::value>::type>
-		R call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {
-			serial::value val;
-			serial::value::array_t& params = val.set_array();
-			params.push_back(serial::serialise<P1>(p1));
-			params.push_back(serial::serialise<P2>(p2));
-			params.push_back(serial::serialise<P3>(p3));
-			params.push_back(serial::serialise<P4>(p4));
-			params.push_back(serial::serialise<P5>(p5));
-			return serial::deserialise<R>(send_request(aName, val));
-		}
-
-		template<class R, class P1, class P2, class P3, class P4, class P5, class ENABLE = typename std::enable_if<std::is_same<R, void>::value>::type>
-		void call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {
+		template<class R, class P1, class P2, class P3, class P4, class P5>
+		typename std::enable_if<!std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -137,11 +125,23 @@ namespace asmith { namespace rpc {
 			params.push_back(serial::serialise<P3>(p3));
 			params.push_back(serial::serialise<P4>(p4));
 			params.push_back(serial::serialise<P5>(p5));
+			return serial::deserialise<R>(send_request(aName, val));
+		}
+
+		template<class R, class P1, class P2, class P3, class P4, class P5>
+		typename std::enable_if<std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {
+			serial::value val;
+			serial::value::array_t& params = val.set_array();
+			params.push_back(serial::serialise<P1>(p1));
+			params.push_back(serial::serialise<P2>(p2));
+			params.push_back(serial::serialise<P3>(p3));
+			params.push_back(serial::serialise<P4>(p4));
+			params.push_back(serial::serialise<P5>(p5));
 			send_notification(aName, val);
 		}
 
-		template<class R, class P1, class P2, class P3, class P4, class P5, class P6, class ENABLE = typename std::enable_if<! std::is_same<R, void>::value>::type>
-		R call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6) {
+		template<class R, class P1, class P2, class P3, class P4, class P5, class P6>
+		typename std::enable_if<!std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
@@ -153,8 +153,8 @@ namespace asmith { namespace rpc {
 			return serial::deserialise<R>(send_request(aName, val));
 		}
 
-		template<class R, class P1, class P2, class P3, class P4, class P5, class P6, class ENABLE = typename std::enable_if<std::is_same<R, void>::value>::type>
-		void call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6) {
+		template<class R, class P1, class P2, class P3, class P4, class P5, class P6>
+		typename std::enable_if<std::is_same<R, void>::value, R>::type call(const std::string& aName, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5, P6 p6) {
 			serial::value val;
 			serial::value::array_t& params = val.set_array();
 			params.push_back(serial::serialise<P1>(p1));
