@@ -21,7 +21,7 @@
 namespace asmith { namespace rpc {
 	struct request {
 		uint64_t id;
-		std::vector<serial::value> params;
+		serial::value params;
 		std::string jsonrpc;
 		std::string method;
 	};
