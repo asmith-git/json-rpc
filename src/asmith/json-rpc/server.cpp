@@ -34,9 +34,7 @@ namespace asmith { namespace rpc {
 			return true;
 		}
 
-		try {
-			function = get_function(aRequest.method);
-		}catch (...) {
+		if(! get_function(aRequest.method, function)){
 			error e;
 			e.code = METHOD_NOT_FOUND;
 			e.message = "Method not found";

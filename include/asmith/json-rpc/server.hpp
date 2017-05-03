@@ -21,7 +21,7 @@
 namespace asmith { namespace rpc {
 	class server {
 	protected:
-		virtual function get_function(const std::string&) = 0;
+		virtual bool get_function(const std::string&, function&) = 0;
 		
 		bool handle_request(const request&, response&);
 	public:
