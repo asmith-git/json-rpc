@@ -46,7 +46,6 @@ namespace asmith { namespace rpc {
 		}
 
 		try {
-			function = get_function(aRequest.method);
 			aResponse.result = function(aRequest.params);
 		}catch(std::exception& e) {
 			error e2;
